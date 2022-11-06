@@ -9,6 +9,8 @@ from datetime import datetime
 
 from helpers import login_required
 
+# Test comment for git commit
+
 # Configure application
 app = Flask(__name__)
 
