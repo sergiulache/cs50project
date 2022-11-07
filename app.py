@@ -9,7 +9,8 @@ from datetime import datetime
 
 from helpers import login_required
 
-# Test comment for git commit
+
+
 
 # Configure application
 app = Flask(__name__)
@@ -136,3 +137,36 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
+
+@app.route("/addbook", methods=["GET", "POST"])
+@login_required
+def addbook():
+    """Add book to database"""
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    print("\n\n\ndate and time =" + dt_string)
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure title was submitted
+        if not request.form.get("title"):
+            return render_template("addbook.html", message="Please enter a title")
+
+        # Ensure author was submitted
+        elif not request.form.get("author"):
+            return render_template("addbook.html", message="Please enter an author")
+
+
+        # Insert book into database
+        # get current date and time
+        
+
+        db.execute("INSERT INTO books (title, author, date, user_id) VALUES (?, ?, ?, ?)", request.form.get("title"), request.form.get("author"), dt_string, session["user_id"])
+
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("addbook.html")
