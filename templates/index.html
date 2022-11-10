@@ -6,7 +6,43 @@ Welcome
 
 {% block main %}
 <h1>Welcome</h1>
-
+<form action="/addbook" method="post">
+    <p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Add book
+        </button>
+    </p>
+    <div class="collapse text-center center" id="collapseExample">
+        <div class="card card-body text-center center">
+            <div class="mb-3 text-center center">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title"
+                    placeholder="Title" type="text">
+                <br>
+                <input autocomplete=" off" autofocus class="form-control mx-auto w-auto" id="author" name="author"
+                    placeholder="Author" type="text">
+                <br>
+                <!-- dropdown menu for selecting book status -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Book status
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Reading</a></li>
+                        <li><a class="dropdown-item" href="#">Planned</a></li>
+                        <li><a class="dropdown-item" href="#">Read</a></li>
+                    </ul>
+                </div>
+                <br>
+                <br>
+                <button class="btn btn-primary" type="submit">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
 
 
 {% endblock %}

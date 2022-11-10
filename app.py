@@ -144,18 +144,19 @@ def addbook():
     """Add book to database"""
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    print("\n\n\ndate and time =" + dt_string)
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
         # Ensure title was submitted
         if not request.form.get("title"):
-            return render_template("addbook.html", message="Please enter a title")
+            # render boostrap toast error
+            return render_template("/", message="Please enter a title")
+            
 
         # Ensure author was submitted
         elif not request.form.get("author"):
-            return render_template("addbook.html", message="Please enter an author")
+            return render_template("/", message="Please enter an author")
 
 
         # Insert book into database
@@ -169,4 +170,20 @@ def addbook():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("addbook.html")
+        return render_template("/")
+
+@app.route("/history", methods=["GET", "POST"])
+@login_required
+def history():
+    
+    # Select title, author and date from books table and merge with reviews for the book
+    books = db.execute("SELECT books.title, books.author, books.date, reviews.review FROM books JOIN reviews ON books.id = reviews.book_id WHERE books.user_id = ?", session["user_id"])
+
+    
+
+    print(books)
+
+    return render_template("history.html", books=books)
+
+# sql command to add a new column to books table with status
+# ALTER TABLE books ADD COLUMN status TEXT DEFAULT 'planned';

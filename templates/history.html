@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}
+History
+{% endblock %}
+{% block main %}
+
+<body>
+    <h1 class="text-center">History</h1>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Review</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book["title"] }}</td>
+                <td>{{ book["author"] }}</td>
+                <td>{{ book["review"] }}</td>
+                <td>{{ book["date"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+</body>
+
+{% endblock %}
