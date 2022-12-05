@@ -23,17 +23,11 @@ Welcome
                     placeholder="Author" type="text">
                 <br>
                 <!-- dropdown menu for selecting book status -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Book status
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Reading</a></li>
-                        <li><a class="dropdown-item" href="#">Planned</a></li>
-                        <li><a class="dropdown-item" href="#">Read</a></li>
-                    </ul>
-                </div>
+                <SELECT name="status">
+                    {% for status in status_list %}
+                    <option value="{{status}}">{{status}}</option>
+                    {% endfor %}
+                </SELECT>
                 <br>
                 <br>
                 <button class="btn btn-primary" type="submit">

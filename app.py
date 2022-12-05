@@ -158,15 +158,16 @@ def addbook():
         elif not request.form.get("author"):
             return render_template("/", message="Please enter an author")
 
+        # Get book status
+        status_list = ["Read", "To Read", "Reading", "Abandoned"]
+        status = request.form['status']
+        print(status)
 
         # Insert book into database
-        # get current date and time
-        
-
         db.execute("INSERT INTO books (title, author, date, user_id) VALUES (?, ?, ?, ?)", request.form.get("title"), request.form.get("author"), dt_string, session["user_id"])
 
         # Redirect user to home page
-        return redirect("/")
+        return render_template("index.html", status_list=status_list)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
