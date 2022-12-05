@@ -56,21 +56,23 @@ table {
   margin-top: 25px;
 }
 
-.form-select {
-  max-width: 450px !important;
-  margin-top: auto;
-}
-
 .collapse {
-  width: 350px;
+  width: 150px !important;
   text-align: center;
 }
 
 .collapsing {
-  width: 350px;
+  width: 150px;
   text-align: center;
 }
 
 .center {
   margin: auto;
+}
+
+/* make select center */
+select {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

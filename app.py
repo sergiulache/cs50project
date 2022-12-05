@@ -27,7 +27,7 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///bookie.db")
 
-
+status_list = ["Read", "To Read", "Reading", "Abandoned"]
 
 @app.after_request
 def after_request(response):
@@ -44,7 +44,9 @@ def index():
     if session.get("user_id") is None:
         return redirect("/login")
     else:
-        return render_template("index.html")
+        # Get user's books
+        books = db.execute("SELECT * FROM books WHERE user_id = ?", session["user_id"])
+        return render_template("index.html", books=books)
 
 
 
@@ -159,19 +161,18 @@ def addbook():
             return render_template("/", message="Please enter an author")
 
         # Get book status
-        status_list = ["Read", "To Read", "Reading", "Abandoned"]
+        
         status = request.form['status']
-        print(status)
 
         # Insert book into database
-        db.execute("INSERT INTO books (title, author, date, user_id) VALUES (?, ?, ?, ?)", request.form.get("title"), request.form.get("author"), dt_string, session["user_id"])
+        db.execute("INSERT INTO books (title, author, date, user_id, status) VALUES (?, ?, ?, ?, ?)", request.form.get("title"), request.form.get("author"), dt_string, session["user_id"], status)
 
-        # Redirect user to home page
-        return render_template("index.html", status_list=status_list)
-
+        # Redirect user to home page and send status_list to be shown in index.html
+        return render_template("index.html")
+        
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("/")
+        return render_template("index.html")
 
 @app.route("/history", methods=["GET", "POST"])
 @login_required
@@ -185,6 +186,17 @@ def history():
     print(books)
 
     return render_template("history.html", books=books)
+
+# route to edit the book based on passed book id
+@app.route("/editbook/<int:book_id>", methods=["GET", "POST"])
+@login_required
+def editbook(book_id):
+    print(book_id)
+    # TODO: book_id is passed, need to show the book details in the form
+    # work on editbook.html and index.html
+    return render_template("index.html")
+
+
 
 # sql command to add a new column to books table with status
 # ALTER TABLE books ADD COLUMN status TEXT DEFAULT 'planned';

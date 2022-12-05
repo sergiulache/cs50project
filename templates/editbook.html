@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}
+Edit
+{% endblock %}
+
+{% block main %}
+<!-- get current book info and show on page-->
+<h1>Edit</h1>
+<form action="/editbook/{{ book.id }}" method="post">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control" id="title" name="title" placeholder="Title" type="text"
+            value="{{ book.title }}">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control" id="author" name="author" placeholder="Author"
+            type="text" value="{{ book.author }}">
+    </div>
+    <!-- dropdown menu for selecting book status -->
+    <select class="form-select" aria-label="Book status" name="status">
+        <option value="Read">Read</option>
+        <option value="Reading">Reading</option>
+        <option value="To Read">To Read</option>
+    </select>
+    <br>
+    <button class="btn btn-primary" type="submit">
+        Save
+    </button>
+</form>
+
+{% endblock %}

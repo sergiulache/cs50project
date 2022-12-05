@@ -6,6 +6,39 @@ Welcome
 
 {% block main %}
 <h1>Welcome</h1>
+<!-- display all books in a table-->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.status }}</td>
+            <td>{{ book.date }}</td>
+            <!-- form for editing book and send current book id-->
+            <td>
+                <form action="/editbook/{{ book.id }}" method="post">
+                    <button class="btn btn-primary" type="submit">
+                        Edit
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- add book form -->
 <form action="/addbook" method="post">
     <p>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
@@ -23,11 +56,13 @@ Welcome
                     placeholder="Author" type="text">
                 <br>
                 <!-- dropdown menu for selecting book status -->
-                <SELECT name="status">
-                    {% for status in status_list %}
-                    <option value="{{status}}">{{status}}</option>
-                    {% endfor %}
-                </SELECT>
+                <select class="form-select center" aria-label="Book status" name="status" style="max-width:150px;  margin-left: auto;
+                    margin-right: auto;">
+                    <option value="Read">Read</option>
+                    <option value="Reading">Reading</option>
+                    <option value="To read">To read</option>
+                    <option value="Abandoned">Abandoned</option>
+                </select>
                 <br>
                 <br>
                 <button class="btn btn-primary" type="submit">
