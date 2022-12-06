@@ -1,5 +1,6 @@
 import os
 
+import jsonify
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -8,9 +9,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 from helpers import login_required
-
-
-
 
 # Configure application
 app = Flask(__name__)
@@ -181,20 +179,62 @@ def history():
     # Select title, author and date from books table and merge with reviews for the book
     books = db.execute("SELECT books.title, books.author, books.date, reviews.review FROM books JOIN reviews ON books.id = reviews.book_id WHERE books.user_id = ?", session["user_id"])
 
-    
-
-    print(books)
-
     return render_template("history.html", books=books)
 
 # route to edit the book based on passed book id
+
+editingBookID = 0
 @app.route("/editbook/<int:book_id>", methods=["GET", "POST"])
 @login_required
 def editbook(book_id):
-    print(book_id)
+    #print(book_id)
+    message = "Edit book details"
+    # get book details from database
+    book_data = db.execute("SELECT * FROM books WHERE id = ?", book_id)
+    book = book_data[0]
     # TODO: book_id is passed, need to show the book details in the form
-    # work on editbook.html and index.html
-    return render_template("index.html")
+    #print(book)
+
+    # global variable for remembering which book is being edited
+    global editingBookID 
+    editingBookID = book_id
+    # render the editbook.html template with the current book id and book details
+    
+    return render_template("editbook.html", book=book, message=message)
+
+@app.route("/editbooksave", methods=["GET", "POST"])
+@login_required
+def editbooksave():
+    # get book details from the form
+    # if no title is entered, show error
+    # if request method is post
+    book_data = db.execute("SELECT * FROM books WHERE id = ?", editingBookID)
+    book = book_data[0]
+    #print(book)
+    if request.method == "POST":
+        if not request.form.get("title"):
+            return render_template("editbook.html", message="Please enter a title", book=book)
+        # if no author is entered, show error
+        if not request.form.get("author"):
+            return render_template("editbook.html", message="Please enter an author", book=book)
+        # verify that author is alphabetical, spaces allowed
+        
+        
+        book_id = editingBookID
+        title = request.form.get("title")
+        author = request.form.get("author")
+        status = request.form.get("status")
+
+        #print(author)
+        # update the book details in the database
+        db.execute("UPDATE books SET title = ?, author = ?, status = ? WHERE id = ?", title, author, status, book_id)
+        # redirect to the home page
+        book_test = db.execute("SELECT * FROM books WHERE id = ?", book_id)
+        print(book_test)
+        books = db.execute("SELECT * FROM books WHERE user_id = ?", session["user_id"])
+        return render_template("index.html", books=books)
+    else:
+        return render_template("index.html")
 
 
 

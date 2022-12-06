@@ -5,14 +5,17 @@ Add Book
 {% endblock %}
 
 {% block main %}
-<form action="/addbook" method="post">
-    <div class="mb-3">
-        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title"
-            placeholder="Title" type="text">
-    </div>
-    <div class="mb-3">
-        <input class="form-control mx-auto w-auto" id="author" name="author" placeholder="Author" type="text">
-    </div>
-    <button class="btn btn-primary" type="submit">Add Book</button>
-</form>
+
+<body>
+    <form action="/addbook" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title"
+                placeholder="Title" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="author" name="author" placeholder="Author" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Add Book</button>
+    </form>
+</body>
 {% endblock %}

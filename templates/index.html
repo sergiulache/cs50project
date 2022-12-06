@@ -13,7 +13,7 @@ Welcome
             <th scope="col">Title</th>
             <th scope="col">Author</th>
             <th scope="col">Status</th>
-            <th scope="col">Date</th>
+            <th scope="col">Date added</th>
             <th> </th>
         </tr>
     </thead>
@@ -26,7 +26,8 @@ Welcome
             <td>{{ book.date }}</td>
             <!-- form for editing book and send current book id-->
             <td>
-                <form action="/editbook/{{ book.id }}" method="post">
+                <!-- edit book button that redirects the user to /editbook-->
+                <form action="/editbook/{{ book.id }}" method="get">
                     <button class="btn btn-primary" type="submit">
                         Edit
                     </button>
@@ -72,6 +73,5 @@ Welcome
         </div>
     </div>
 </form>
-
 
 {% endblock %}
