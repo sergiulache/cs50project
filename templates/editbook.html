@@ -19,17 +19,37 @@ Edit
         </div>
         <!-- dropdown menu for selecting book status -->
         <select class="form-select" aria-label="Book status" name="status">
-            <option value="Read">Read</option>
-            <option value="Reading">Reading</option>
-            <option value="To Read">To Read</option>
-            <option value="Abandoned">Abandoned</option>
+            <option value="Read" {{read}}>Read</option>
+            <option value="Reading" {{reading}}>Reading</option>
+            <option value="To Read" {{to_read}}>To Read</option>
+            <option value="Abandoned" {{abandoned}}>Abandoned</option>
             <!-- hidden option for bookid-->
             <option value="book_id" hidden>{{ book.id }}</option>
         </select>
         <br>
+        <!-- collapse with input for entering a review -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    Add a review
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <textarea class="form-control" id="review" name="review" rows="3">{{old_review}}</textarea>
+                </div>
+            </div>
+
+            <br>
+        </div>
+        <br>
         <button class="btn btn-primary" type="submit">
             Save
         </button>
+        <!-- delete book button -->
+        <a class="btn btn-danger" href="/deletebook/{{ book.id }}" role="button">Delete</a>
     </form>
 </body>
 {% endblock %}

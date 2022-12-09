@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Stats
+{% endblock %}
+
+{% block main %}
+
+<body>
+    <h1 class="text-center">Stats</h1>
+    <br>
+    <!-- overall -->
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseOverall" role="button"
+            aria-expanded="false" aria-controls="multiCollapseOverall">
+            Overall
+        </a>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseMonth"
+            aria-expanded="false" aria-controls="multiCollapseMonth">
+            This month
+        </button>
+    </p>
+    <div class=row">
+        <div class="col">
+            <div class="multi-collapse text-center center collapse" id="multiCollapseOverall">
+                <div class="card card-body text-center center">
+                    <div class="mb-3 text-center center">
+                        <h5> Total number of books: {{total}}.</h5>
+                        <br>
+                        <p> Currently reading {{reading}} books.</p>
+                        <p> Finished reading {{read}} books.</p>
+                        <p> You've abandoned {{abandoned}} books.</p>
+                        <p> You've also planned {{planned}} books for later.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- this month only -->
+        <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseMonth">
+                <div class="card card-body text-center center">
+                    <div class="mb-3 text-center center">
+
+                        <h5> Total number of books: {{monthly_stats["total_this_month"]}}.</h5>
+                        <br>
+                        <p> Currently reading {{monthly_stats["reading_this_month"]}} books.</p>
+                        <p> Finished reading {{monthly_stats["read_this_month"]}} books.</p>
+                        <p> You've abandoned {{monthly_stats["abandoned_this_month"]}} books.</p>
+                        <p> You've also planned {{monthly_stats["planned_this_month"]}} books for later.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- last month's goal -->
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseGoal" role="button" aria-expanded="false"
+            aria-controls="collapseGoal">
+            Last month's goal
+        </a>
+    </p>
+
+    <div class="collapse text-center center" id="collapseGoal">
+        <div class="card card-body text-center center" style="max-width:550px;  margin-left: auto;
+                    margin-right: auto;">
+            <div class="mb-3 text-center center">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="21"
+                        style='width: {{goal_percent}}%' aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+                <br>
+                <h5> So far you've read: {{message_goals}} </h5>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- set goal for next month-->
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGoal"
+        aria-expanded="false" aria-controls="collapseGoal">
+        Set a new goal
+    </button>
+    </p>
+    <div class="collapse text-center center" id="collapseGoal">
+        <div class="card card-body text-center center">
+            <div class="mb-3 text-center center">
+                <form action="/setgoal" method="post">
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="goal" name="goal"
+                        placeholder="Number of books" type="number">
+                    <br>
+                    <button class="btn btn-primary" type="submit">
+                        Set goal
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+
+
+
+</body>
+{% endblock %}

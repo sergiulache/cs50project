@@ -5,7 +5,8 @@ Welcome
 {% endblock %}
 
 {% block main %}
-<h1>Welcome</h1>
+<h1>{{message}}</h1>
+<br>
 <!-- display all books in a table-->
 <table class="table table-striped">
     <thead>
@@ -61,7 +62,7 @@ Welcome
                     margin-right: auto;">
                     <option value="Read">Read</option>
                     <option value="Reading">Reading</option>
-                    <option value="To read">To read</option>
+                    <option value="To Read">To Read</option>
                     <option value="Abandoned">Abandoned</option>
                 </select>
                 <br>
