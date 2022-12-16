@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -399,3 +399,15 @@ def setgoal():
         return redirect("/stats")
     else:
         return render_template("setgoal.html")
+
+@app.route("/search")
+@login_required
+def search():
+    
+    query = request.args.get("q")
+    # select all books that match the query
+    if query:
+        books = db.execute("SELECT * FROM books WHERE title COLLATE NOCASE LIKE ? OR author LIKE ?", "%" + query + "%", "%" + query + "%")
+    else:
+        books = []
+    return jsonify(books)

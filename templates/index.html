@@ -8,6 +8,7 @@ Welcome
 <h1>{{message}}</h1>
 <br>
 <!-- display all books in a table-->
+<!-- 
 <table class="table table-striped">
     <thead>
         <tr>
@@ -25,9 +26,9 @@ Welcome
             <td>{{ book.author }}</td>
             <td>{{ book.status }}</td>
             <td>{{ book.date }}</td>
-            <!-- form for editing book and send current book id-->
+            
             <td>
-                <!-- edit book button that redirects the user to /editbook-->
+                
                 <form action="/editbook/{{ book.id }}" method="get">
                     <button class="btn btn-primary" type="submit">
                         Edit
@@ -38,7 +39,7 @@ Welcome
         {% endfor %}
     </tbody>
 </table>
-
+-->
 
 <!-- add book form -->
 <form action="/addbook" method="post">
@@ -74,5 +75,88 @@ Welcome
         </div>
     </div>
 </form>
+
+<div>
+    <input autocomplete="off" autofocus placeholder="Query" type="search" id="searchquery">
+
+    <ul id="searchresults"></ul>
+
+    <script>
+        let input = document.getElementById('searchquery');
+        input.addEventListener('input', async function () {
+
+            // wait response from /serach with the json list of books
+            let response = await fetch('/search?q=' + input.value);
+            let books = await response.json();
+            let html = '';
+            // exists is used to determine whether the are search results, to not show an empty table
+            let exists = false;
+            for (let id in books) {
+
+                let title = books[id].title.replace('<', '&lt;').replace('&', '&amp;');
+                if (title.length > 1) {
+                    exists = true;
+                }
+                else
+                    exists = false;
+                let author = books[id].author.replace('<', '&lt;').replace('&', '&amp;');
+                let status = books[id].status.replace('<', '&lt;').replace('&', '&amp;');
+                let date = books[id].date.replace('<', '&lt;').replace('&', '&amp;');
+                let bookID = books[id].id;
+
+                // html for the edit button
+                let editButton = '<form action="/editbook/' + bookID + '" method="get">' + '<button class="btn btn-primary" type="submit">' + 'Edit' + '</button>' + '</form>';
+                // adding a new row for each book with the book's info
+                html += '<tr>' + '<td>' + title + '</td>' + '<td>' + author + '</td>' + '<td>' + status + '</td>' + '<td>' + date + '</td>' + '<td>' + editButton + '</td>' + '</tr>';
+            }
+            // adding the html code to the table
+            document.getElementById('resultsTableBody').innerHTML = html;
+
+            // if the input is at least 3 characters long and there are search results, show the table
+            if (input.value.length >= 3 && exists) {
+                document.getElementById("resultsTable").style.visibility = "visible";
+                return;
+            }
+
+            if (input.value.length == 0 || !exists) {
+                document.getElementById("resultsTable").style.visibility = "hidden";
+            }
+        });
+    </script>
+</div>
+
+<div>
+    <table class="table table-striped" id="resultsTable" style="visibility: hidden;">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date added</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody id="resultsTableBody">
+            <!--
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.status }}</td>
+                <td>{{ book.date }}</td>
+
+                <td>
+                    <form action="/editbook/{{ book.id }}" method="get">
+                        <button class="btn btn-primary" type="submit">
+                            Edit
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            -->
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
