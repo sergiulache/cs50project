@@ -1,11 +1,33 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Welcome
+Bookie
 {% endblock %}
 
 {% block main %}
-<h1>{{message}}</h1>
+<h1 id="welcomeMessage" style="text-align: left">{{message}}</h1>
+<ul class="list-group d-inline-flex" style="float: left; padding-bottom: 25px;">
+    <li class="list-group-item d-inline-flex justify-content-between align-items-center">
+        Read
+        <span class="badge badge-primary badge-pill">{{number_of_books[0]}}</span>
+    </li>
+    <li class="list-group-item d-inline-flex justify-content-between align-items-center">
+        To Read
+        <span class="badge badge-primary badge-pill">{{number_of_books[1]}}</span>
+    </li>
+    <li class="list-group-item d-inline-flex justify-content-between align-items-center">
+        Reading
+        <span class="badge badge-primary badge-pill">{{number_of_books[2]}}</span>
+    </li>
+    <li class="list-group-item d-inline-flex justify-content-between align-items-center">
+        Abandoned&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="badge badge-primary badge-pill">{{number_of_books[3]}}</span>
+    </li>
+</ul>
+
+<br>
+
+<br>
 <br>
 <!-- display all books in a table-->
 <!-- 
@@ -41,43 +63,11 @@ Welcome
 </table>
 -->
 
-<!-- add book form -->
-<form action="/addbook" method="post">
-    <p>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample">
-            Add book
-        </button>
-    </p>
-    <div class="collapse text-center center" id="collapseExample">
-        <div class="card card-body text-center center">
-            <div class="mb-3 text-center center">
-                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title"
-                    placeholder="Title" type="text">
-                <br>
-                <input autocomplete=" off" autofocus class="form-control mx-auto w-auto" id="author" name="author"
-                    placeholder="Author" type="text">
-                <br>
-                <!-- dropdown menu for selecting book status -->
-                <select class="form-select center" aria-label="Book status" name="status" style="max-width:150px;  margin-left: auto;
-                    margin-right: auto;">
-                    <option value="Read">Read</option>
-                    <option value="Reading">Reading</option>
-                    <option value="To Read">To Read</option>
-                    <option value="Abandoned">Abandoned</option>
-                </select>
-                <br>
-                <br>
-                <button class="btn btn-primary" type="submit">
-                    Add
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
 
-<div>
-    <input autocomplete="off" autofocus placeholder="Query" type="search" id="searchquery">
+<p id="pSearch"> Search for a book</p>
+<div style="margin-top:20px;" id="searchBox">
+
+    <input autocomplete="off" autofocus placeholder="Search" type="search" id="searchquery">
 
     <ul id="searchresults"></ul>
 
@@ -125,6 +115,61 @@ Welcome
     </script>
 </div>
 
+<p id="pAddBook"> or add one</p>
+<!-- add book form -->
+
+<form action="/addbook" method="post" id="addBookBox">
+    <p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" id="addBookCollapse">
+            Add book
+            <script>
+                // when the button is clicked, hide #searchBox
+                let hidden = false;
+                console.log(hidden);
+                document.getElementById("addBookCollapse").addEventListener("click", function () {
+                    if (hidden) {
+                        document.getElementById("searchBox").style.visibility = "visible";
+                        document.getElementById("pSearch").style.visibility = "visible";
+                        document.getElementById("pAddBook").style.visibility = "visible";
+                        hidden = false;
+                    }
+                    else {
+                        document.getElementById("searchBox").style.visibility = "hidden";
+                        //document.getElementById("resultsTable").style.visibility = "hidden";
+                        document.getElementById("pSearch").style.visibility = "hidden";
+                        document.getElementById("pAddBook").style.visibility = "hidden";
+                        hidden = true;
+                    }
+                });
+            </script>
+        </button>
+    </p>
+    <div class="collapse text-center center" id="collapseExample">
+        <div class="card card-body text-center center">
+            <div class="mb-3 text-center center">
+                <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title"
+                    placeholder="Title" type="text">
+                <br>
+                <input autocomplete=" off" autofocus class="form-control mx-auto w-auto" id="author" name="author"
+                    placeholder="Author" type="text">
+                <br>
+                <!-- dropdown menu for selecting book status -->
+                <select class="form-select center" aria-label="Book status" name="status" style="max-width:150px;  margin-left: auto;
+                    margin-right: auto;">
+                    <option value="Read">Read</option>
+                    <option value="Reading">Reading</option>
+                    <option value="To Read">To Read</option>
+                    <option value="Abandoned">Abandoned</option>
+                </select>
+                <br>
+                <button class="btn btn-primary" type="submit">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
 <div>
     <table class="table table-striped" id="resultsTable" style="visibility: hidden;">
         <thead>

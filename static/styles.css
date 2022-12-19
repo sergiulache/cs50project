@@ -1,4 +1,4 @@
-/* add some nice general styles, fonts, etc. */
+/* some nice general styles, fonts, etc. */
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -7,9 +7,8 @@ body {
   background-color: #fff;
 }
 
-/* make content work well on mobile devices */
 body {
-  padding-top: 60px;
+  padding-top: 0px;
   padding-bottom: 40px;
 }
 
@@ -47,32 +46,31 @@ table {
   transition: 0.7s;
 }
 
-.cashdisplay {
-  font-size: 1.75rem;
-  font-weight: 700;
+/* make #addBookBox centered relative to the page */
+#addBookBox {
+  position: fixed;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-#addbtn {
-  margin-top: 25px;
+#searchquery {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.collapse {
-  width: 150px !important;
-  text-align: center;
+#pSearch {
+  position: fixed;
+  top: 21%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.collapsing {
-  width: 150px;
-  text-align: center;
-}
-
-.center {
-  margin: auto;
-}
-
-/* make select center */
-select {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+#pAddBook {
+  position: fixed;
+  top: 29%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

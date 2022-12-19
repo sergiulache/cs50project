@@ -43,8 +43,17 @@ def index():
     else:
         # Get user's books
         books = db.execute("SELECT * FROM books WHERE user_id = ?", session["user_id"])
+        number_of_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Read")
+        number_of_to_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "To Read")
+        number_of_reading_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Reading")
+        number_of_abandoned_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Abandoned")
+        # adding each number of books to a list
+        number_of_books = [number_of_read_books[0]["COUNT(*)"], number_of_to_read_books[0]["COUNT(*)"], number_of_reading_books[0]["COUNT(*)"], number_of_abandoned_books[0]["COUNT(*)"]]
+
+
+
         message = "Welcome to Bookie!"
-        return render_template("index.html", books=books, message=message)
+        return render_template("index.html", books=books, message=message, number_of_books=number_of_books)
 
 
 
