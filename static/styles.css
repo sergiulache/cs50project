@@ -13,7 +13,7 @@ body {
 }
 
 * {
-  font-family: Montserrat;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Size for brand */
@@ -48,29 +48,35 @@ table {
 
 /* make #addBookBox centered relative to the page */
 #addBookBox {
-  position: fixed;
+  position: relative;
   top: 34%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #searchquery {
-  position: fixed;
+  position: relative;
   top: 25%;
-  left: 50%;
+  left: 1%;
   transform: translate(-50%, -50%);
 }
 
 #pSearch {
-  position: fixed;
+  position: relative;
   top: 21%;
-  left: 50%;
+  left: 46%;
   transform: translate(-50%, -50%);
 }
 
 #pAddBook {
-  position: fixed;
+  position: relative;
   top: 29%;
-  left: 50%;
+  left: 46%;
   transform: translate(-50%, -50%);
+}
+
+h1 {
+  text-shadow: 2px 2px 8px #000000;
+  color: white;
+  z-index: -1;
 }

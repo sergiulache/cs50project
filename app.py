@@ -62,6 +62,7 @@ def index():
 def login():
     """Log user in"""
 
+    message = "Log in to your account"
     # Forget any user_id
     session.clear()
 
@@ -83,7 +84,7 @@ def login():
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
             return render_template("login.html", message="Invalid username and/or password")
 
-        # Remember which user has logged in
+        # Remember w`hich user has logged in
         session["user_id"] = rows[0]["id"]
 
 
@@ -92,12 +93,13 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("login.html")
+        return render_template("login.html", message=message)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
 
+    message = "Register a new account"
     # Forget any user_id
     session.clear()
 
@@ -131,11 +133,11 @@ def register():
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), generate_password_hash(request.form.get("password")))
 
         # Redirect user to login form
-        return redirect("/login")
+        return render_template("login.html", message="Registration successful, please log in")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("register.html")
+        return render_template("register.html", message=message)
 
 @app.route("/logout")
 def logout():
