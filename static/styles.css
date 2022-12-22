@@ -11,7 +11,26 @@ body {
   padding-top: 0px;
   padding-bottom: 40px;
 }
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
 * {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -47,36 +66,76 @@ table {
 }
 
 /* make #addBookBox centered relative to the page */
+
 #addBookBox {
-  position: relative;
-  top: 34%;
+  position: absolute;
+  top: 31%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #searchquery {
-  position: relative;
-  top: 25%;
-  left: 1%;
+  position: absolute;
+  top: 20%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #pSearch {
-  position: relative;
-  top: 21%;
-  left: 46%;
+  position: absolute;
+  top: 14%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #pAddBook {
-  position: relative;
-  top: 29%;
-  left: 46%;
+  position: absolute;
+  top: 25%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 h1 {
   text-shadow: 2px 2px 8px #000000;
-  color: white;
   z-index: -1;
+}
+
+/* set text color of all h1 elements as white*/
+h1 {
+  color: white !important;
+}
+
+p {
+  text-shadow: 2px 2px 12px #000000;
+  z-index: -1;
+  color: white;
+  font-size: 1.8em;
+}
+
+/* add text shadow to button text */
+.btn {
+  text-shadow: 2px 2px 8px #000000;
+  font-weight: bolder;
+}
+
+.centered {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* placeholder text size */
+::-webkit-input-placeholder {
+  font-size: 1em;
+}
+
+/* make table text white and shadowed */
+table {
+  color: white !important;
+  text-shadow: 2px 2px 8px #000000;
+}
+
+/* make table text a nicer font and bold */
+table {
+  font-weight: bolder;
 }

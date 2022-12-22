@@ -182,7 +182,13 @@ def addbook():
 
         # Redirect user to home page
         books = db.execute("SELECT * FROM books WHERE user_id = ?", session["user_id"])
-        return render_template("index.html", books=books, message="Book added!")
+        number_of_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Read")
+        number_of_to_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "To Read")
+        number_of_reading_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Reading")
+        number_of_abandoned_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Abandoned")
+        # adding each number of books to a list
+        number_of_books = [number_of_read_books[0]["COUNT(*)"], number_of_to_read_books[0]["COUNT(*)"], number_of_reading_books[0]["COUNT(*)"], number_of_abandoned_books[0]["COUNT(*)"]]
+        return render_template("index.html", books=books, message="Book added!", number_of_books=number_of_books)
         
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -290,7 +296,14 @@ def editbooksave():
             # if the review does not exist, insert it
             else:
                 db.execute("INSERT INTO reviews (book_id, review) VALUES (?, ?)", book_id, review)
-        return render_template("index.html", books=books, message="Book updated!")
+        
+        number_of_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Read")
+        number_of_to_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "To Read")
+        number_of_reading_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Reading")
+        number_of_abandoned_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Abandoned")
+        # adding each number of books to a list
+        number_of_books = [number_of_read_books[0]["COUNT(*)"], number_of_to_read_books[0]["COUNT(*)"], number_of_reading_books[0]["COUNT(*)"], number_of_abandoned_books[0]["COUNT(*)"]]
+        return render_template("index.html", books=books, message="Book updated!", number_of_books=number_of_books)
     else:
         return render_template("index.html")
 
@@ -302,7 +315,13 @@ def deletebook(book_id):
     db.execute("DELETE FROM books WHERE id = ?", book_id)
     # redirect to the index page
     books = db.execute("SELECT * FROM books WHERE user_id = ?", session["user_id"])
-    return render_template("index.html", books=books, message="Book deleted!")
+    number_of_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Read")
+    number_of_to_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "To Read")
+    number_of_reading_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Reading")
+    number_of_abandoned_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Abandoned")
+    # adding each number of books to a list
+    number_of_books = [number_of_read_books[0]["COUNT(*)"], number_of_to_read_books[0]["COUNT(*)"], number_of_reading_books[0]["COUNT(*)"], number_of_abandoned_books[0]["COUNT(*)"]]
+    return render_template("index.html", books=books, message="Book deleted!", number_of_books=number_of_books)
 # sql command to add a new column to books table with status
 # ALTER TABLE books ADD COLUMN status TEXT DEFAULT 'planned';
 
