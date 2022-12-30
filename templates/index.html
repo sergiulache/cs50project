@@ -8,19 +8,23 @@ Bookie
 <h1 id="welcomeMessage" style="text-align: left">{{message}}</h1>
 <ul class="list-group d-inline-flex" style="float: left; padding-bottom: 25px; z-index: -2;">
     <li class="list-group-item d-inline-flex justify-content-between align-items-center">
-        Read
+        <!-- link to /bookstatus/read-->
+        <a href="/bookstatus/read" style="color: black;">Read</a>
         <span class="badge badge-primary badge-pill">{{number_of_books[0]}}</span>
     </li>
     <li class="list-group-item d-inline-flex justify-content-between align-items-center">
-        To Read
+        <!-- link to /bookstatus/to-read-->
+        <a href="/bookstatus/toread" style="color: black;">To Read</a>
         <span class="badge badge-primary badge-pill">{{number_of_books[1]}}</span>
     </li>
     <li class="list-group-item d-inline-flex justify-content-between align-items-center">
-        Reading
+        <!-- link to /bookstatus/currently-reading-->
+        <a href="/bookstatus/reading" style="color: black; padding-right: 5px;">Reading</a>
         <span class="badge badge-primary badge-pill">{{number_of_books[2]}}</span>
     </li>
     <li class="list-group-item d-inline-flex justify-content-between align-items-center">
-        Abandoned&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <!-- link to /bookstatus/abandoned-->
+        <a href="/bookstatus/abandoned" style="color: black; padding-right: 5px;">Abandoned</a>
         <span class="badge badge-primary badge-pill">{{number_of_books[3]}}</span>
     </li>
 </ul>
@@ -79,7 +83,7 @@ Bookie
             let response = await fetch('/search?q=' + input.value);
             let books = await response.json();
             let html = '';
-            // exists is used to determine whether the are search results, to not show an empty table
+            // exists is used to determine whether there are search results, to not show an empty table
             let exists = false;
             for (let id in books) {
 
@@ -172,7 +176,7 @@ Bookie
     </div>
 </form>
 <div>
-    <table class="table" id="resultsTable" style="visibility: hidden;">
+    <table class="table table-hover" id="resultsTable" style="visibility: hidden;">
         <thead>
             <tr>
                 <th scope="col">Title</th>

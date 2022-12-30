@@ -42,6 +42,7 @@ def index():
         return redirect("/login")
     else:
         # Get user's books
+        # this is for the counter on the left side of the index page
         books = db.execute("SELECT * FROM books WHERE user_id = ?", session["user_id"])
         number_of_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Read")
         number_of_to_read_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "To Read")
@@ -49,8 +50,6 @@ def index():
         number_of_abandoned_books = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Abandoned")
         # adding each number of books to a list
         number_of_books = [number_of_read_books[0]["COUNT(*)"], number_of_to_read_books[0]["COUNT(*)"], number_of_reading_books[0]["COUNT(*)"], number_of_abandoned_books[0]["COUNT(*)"]]
-
-
 
         message = "Welcome to Bookie!"
         return render_template("index.html", books=books, message=message, number_of_books=number_of_books)
@@ -173,8 +172,8 @@ def addbook():
 
         if not request.form.get("status"):
             return render_template("index.html", message="Please select a status", books=books)
-        # Get book status
         
+        # Get book status
         status = request.form['status']
 
         # Insert book into database
@@ -203,8 +202,9 @@ def reviews():
 
     return render_template("reviews.html", books=books)
 
-# route to edit the book based on passed book id
 
+# route to edit the book based on passed book id
+# global variable for remembering which book is being editet
 editingBookID = 0
 @app.route("/editbook/<int:book_id>", methods=["GET", "POST"])
 @login_required
@@ -225,9 +225,8 @@ def editbook(book_id):
         old_review = review_data[0]["review"]
     else:
         old_review = ""
-    # render the editbook.html template with the current book id and book details
-    
-    
+
+    # "selected" is used to show which status is selected in the dropdown menu
     # get book status from database
     status = book["status"]
     if status == "Reading":
@@ -259,11 +258,12 @@ def editbook(book_id):
     
     return render_template("editbook.html", book=book, message=message, old_review=old_review, reading=reading, read=read, to_read=to_read, abandoned=abandoned)
 
+
+# route to save the edited book
 @app.route("/editbooksave", methods=["GET", "POST"])
 @login_required
 def editbooksave():
     # get book details from the form
-    # if no title is entered, show error
     # if request method is post
     book_data = db.execute("SELECT * FROM books WHERE id = ?", editingBookID)
     book = book_data[0]
@@ -334,7 +334,7 @@ def stats():
     reading = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Reading")
     planned = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "To Read")
     abandoned = db.execute("SELECT COUNT(*) FROM books WHERE user_id = ? AND status = ?", session["user_id"], "Abandoned")
-    # get the number of books read, reading and planned
+    # get actual number
     read = read[0]["COUNT(*)"]
     reading = reading[0]["COUNT(*)"]
     planned = planned[0]["COUNT(*)"]
@@ -373,21 +373,20 @@ def stats():
     print("abandoned: ", abandoned)
     
     
-
     # get the number of books read, reading and planned
     total = read + reading + planned + abandoned
     # calculate the percentage of books read, reading and planned
+    # deprecated, never shown on page, but used to calculate the goal percentage and the bar's position
     read_percent = round(read / total * 100)
     reading_percent = round(reading / total * 100)
     planned_percent = round(planned / total * 100)
     abandoned_percent = round(abandoned / total * 100)
 
     
-
-
     message_goals = "No goal set yet"
     goal = 0
     # get the goal
+    # everything that happens below is for calculating the goal
     goal_data = db.execute("SELECT * FROM goals WHERE user_id = ?", session["user_id"])
     if len(goal_data) != 0:
         goal = goal_data[0]["goal"]
@@ -398,8 +397,6 @@ def stats():
     else:
         goal_percent = 0
         message_goals = "No goal set yet"
-
-    
 
     # render the stats.html template with the stats
     return render_template("stats.html", read=read, reading=reading, planned=planned, read_percent=read_percent, reading_percent=reading_percent, planned_percent=planned_percent, abandoned_percent=abandoned_percent, abandoned=abandoned, total=total, monthly_stats=monthly_stats, message_goals=message_goals, goal_percent=goal_percent)
@@ -441,3 +438,13 @@ def search():
     else:
         books = []
     return jsonify(books)
+
+@app.route("/bookstatus/<string:status>", methods=["GET", "POST"])
+@login_required
+def bookstatus(status):
+    # get all books with the status
+    if status == "toread":
+        status = "To Read"
+    books = db.execute("SELECT * FROM books WHERE user_id = ? AND status COLLATE NOCASE = ?", session["user_id"], status)
+
+    return render_template("bookstatus.html", books=books, status=status, message=status.capitalize())

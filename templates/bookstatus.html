@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ message }}
+{% endblock %}
+{% block main %}
+<h1>{{ message }}</h1>
+<br>
+
+<body>
+    <!-- table showing the book details -->
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Date added</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.date }}</td>
+
+                <td>
+
+                    <form action="/editbook/{{ book.id }}" method="get">
+                        <button class="btn btn-primary" type="submit">
+                            Edit
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+{% endblock %}
