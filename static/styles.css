@@ -65,32 +65,30 @@ table {
   transition: 0.7s;
 }
 
-/* make #addBookBox centered relative to the page */
-
 #addBookBox {
   position: absolute;
-  top: 31%;
+  top: 28%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #searchquery {
   position: absolute;
-  top: 20%;
+  top: 18%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #pSearch {
   position: absolute;
-  top: 14%;
+  top: 12%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 #pAddBook {
   position: absolute;
-  top: 25%;
+  top: 23%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
